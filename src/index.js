@@ -11,6 +11,7 @@ const refs = {
 };
 
 let page = 1;
+let gallery = new SimpleLightbox('.gallery a');
 
 refs.form.addEventListener('submit', onSubmitBnt);
 refs.input.addEventListener('keydown', e => {
@@ -35,6 +36,7 @@ async function onSubmitBnt(e) {
     }
 
     Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+    
     if (data.hits.length > 39) {
       refs.loadMore.classList.replace('loadMore-hidden', 'loadMore');
     }
@@ -43,14 +45,6 @@ async function onSubmitBnt(e) {
     refs.gallery.innerHTML = markup;
     new SimpleLightbox('.gallery a');
 
-    const { height: cardHeight } = document
-      .querySelector('.gallery')
-      .firstElementChild.getBoundingClientRect();
-
-    window.scrollBy({
-      top: cardHeight * 1.3,
-      behavior: 'smooth',
-    });
   } catch (error) {
     console.error(error);
   }
@@ -71,8 +65,18 @@ async function onLoadMoreClick(e) {
     }
     const markupLoadMore = validData(data.hits);
     refs.gallery.insertAdjacentHTML('beforeend', markupLoadMore);
-    let gallery = new SimpleLightbox('.gallery a');
+    
     gallery.refresh();
+
+    const { height: cardHeight } = document
+      .querySelector('.gallery')
+      .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 1.3,
+      behavior: 'smooth',
+    });
+
   } catch (er) {
     console.log(er);
   }
