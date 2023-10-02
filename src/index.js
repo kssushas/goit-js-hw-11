@@ -42,6 +42,15 @@ async function onSubmitBnt(e) {
     const markup = validData(data.hits);
     refs.gallery.innerHTML = markup;
     new SimpleLightbox('.gallery a');
+
+    const { height: cardHeight } = document
+      .querySelector('.gallery')
+      .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 1.3,
+      behavior: 'smooth',
+    });
   } catch (error) {
     console.error(error);
   }
